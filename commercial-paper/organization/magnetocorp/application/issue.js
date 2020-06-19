@@ -76,7 +76,7 @@ async function main() {
 
         let paper = CommercialPaper.fromBuffer(issueResponse);
 
-        console.log(`${paper.issuer} commercial paper : ${paper.paperNumber} successfully issued for value ${paper.faceValue}`);
+        console.log(`project_name: ${paper.project_name}, total_progress: ${paper.total_progress} successfully add to list`);
         console.log('Transaction complete.');
 
     } catch (error) {
