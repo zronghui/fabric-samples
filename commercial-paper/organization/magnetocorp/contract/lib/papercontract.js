@@ -62,22 +62,33 @@ class CommercialPaperContract extends Contract {
      * @param {String} maturityDateTime paper maturity date
      * @param {Integer} faceValue face value of paper
     */
-    async issue(ctx, issuer, paperNumber, issueDateTime, maturityDateTime, faceValue) {
+    async newPaper(ctx, project_id, project_name, company_name, start_date, total_progress, wutan_progress, huatan_progress, zuantan_progress, kengtan_progress, caotan_progress, qianjing_progress, allocated_budget, total_budget) {
 
         // create an instance of the paper
-        let paper = CommercialPaper.createInstance(issuer, paperNumber, issueDateTime, maturityDateTime, faceValue);
+        let paper = CommercialPaper.createInstance(project_id, project_name, company_name, start_date, total_progress, wutan_progress, huatan_progress, zuantan_progress, kengtan_progress, caotan_progress, qianjing_progress, allocated_budget, total_budget);
 
         // Smart contract, rather than paper, moves paper into ISSUED state
-        paper.setIssued();
+        // paper.setIssued();
 
         // Newly issued paper is owned by the issuer
-        paper.setOwner(issuer);
+        // paper.setOwner(issuer);
 
         // Add the paper to the list of all similar commercial papers in the ledger world state
         await ctx.paperList.addPaper(paper);
 
         // Must return a serialized paper to caller of smart contract
         return paper;
+    }
+
+    async updateTotalProgress(ctx, project_id, new_total_progress){
+            // Retrieve the current paper using key fields provided
+            let paperKey = CommercialPaper.makeKey([project_id]);
+            let paper = await ctx.paperList.getPaper(paperKey);
+
+            paper.updateTotalProgress(new_total_progress);
+
+            await ctx.paperList.updatePaper(paper);
+            return paper;
     }
 
     /**
@@ -91,33 +102,33 @@ class CommercialPaperContract extends Contract {
      * @param {Integer} price price paid for this paper
      * @param {String} purchaseDateTime time paper was purchased (i.e. traded)
     */
-    async buy(ctx, issuer, paperNumber, currentOwner, newOwner, price, purchaseDateTime) {
+    // async buy(ctx, issuer, paperNumber, currentOwner, newOwner, price, purchaseDateTime) {
 
-        // Retrieve the current paper using key fields provided
-        let paperKey = CommercialPaper.makeKey([issuer, paperNumber]);
-        let paper = await ctx.paperList.getPaper(paperKey);
+    //     // Retrieve the current paper using key fields provided
+    //     let paperKey = CommercialPaper.makeKey([issuer, paperNumber]);
+    //     let paper = await ctx.paperList.getPaper(paperKey);
 
-        // Validate current owner
-        if (paper.getOwner() !== currentOwner) {
-            throw new Error('Paper ' + issuer + paperNumber + ' is not owned by ' + currentOwner);
-        }
+    //     // Validate current owner
+    //     if (paper.getOwner() !== currentOwner) {
+    //         throw new Error('Paper ' + issuer + paperNumber + ' is not owned by ' + currentOwner);
+    //     }
 
-        // First buy moves state from ISSUED to TRADING
-        if (paper.isIssued()) {
-            paper.setTrading();
-        }
+    //     // First buy moves state from ISSUED to TRADING
+    //     if (paper.isIssued()) {
+    //         paper.setTrading();
+    //     }
 
-        // Check paper is not already REDEEMED
-        if (paper.isTrading()) {
-            paper.setOwner(newOwner);
-        } else {
-            throw new Error('Paper ' + issuer + paperNumber + ' is not trading. Current state = ' +paper.getCurrentState());
-        }
+    //     // Check paper is not already REDEEMED
+    //     if (paper.isTrading()) {
+    //         paper.setOwner(newOwner);
+    //     } else {
+    //         throw new Error('Paper ' + issuer + paperNumber + ' is not trading. Current state = ' +paper.getCurrentState());
+    //     }
 
-        // Update the paper
-        await ctx.paperList.updatePaper(paper);
-        return paper;
-    }
+    //     // Update the paper
+    //     await ctx.paperList.updatePaper(paper);
+    //     return paper;
+    // }
 
     /**
      * Redeem commercial paper
@@ -128,28 +139,28 @@ class CommercialPaperContract extends Contract {
      * @param {String} redeemingOwner redeeming owner of paper
      * @param {String} redeemDateTime time paper was redeemed
     */
-    async redeem(ctx, issuer, paperNumber, redeemingOwner, redeemDateTime) {
+    // async redeem(ctx, issuer, paperNumber, redeemingOwner, redeemDateTime) {
 
-        let paperKey = CommercialPaper.makeKey([issuer, paperNumber]);
+    //     let paperKey = CommercialPaper.makeKey([issuer, paperNumber]);
 
-        let paper = await ctx.paperList.getPaper(paperKey);
+    //     let paper = await ctx.paperList.getPaper(paperKey);
 
-        // Check paper is not REDEEMED
-        if (paper.isRedeemed()) {
-            throw new Error('Paper ' + issuer + paperNumber + ' already redeemed');
-        }
+    //     // Check paper is not REDEEMED
+    //     if (paper.isRedeemed()) {
+    //         throw new Error('Paper ' + issuer + paperNumber + ' already redeemed');
+    //     }
 
-        // Verify that the redeemer owns the commercial paper before redeeming it
-        if (paper.getOwner() === redeemingOwner) {
-            paper.setOwner(paper.getIssuer());
-            paper.setRedeemed();
-        } else {
-            throw new Error('Redeeming owner does not own paper' + issuer + paperNumber);
-        }
+    //     // Verify that the redeemer owns the commercial paper before redeeming it
+    //     if (paper.getOwner() === redeemingOwner) {
+    //         paper.setOwner(paper.getIssuer());
+    //         paper.setRedeemed();
+    //     } else {
+    //         throw new Error('Redeeming owner does not own paper' + issuer + paperNumber);
+    //     }
 
-        await ctx.paperList.updatePaper(paper);
-        return paper;
-    }
+    //     await ctx.paperList.updatePaper(paper);
+    //     return paper;
+    // }
 
 }
 

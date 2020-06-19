@@ -8,11 +8,11 @@ SPDX-License-Identifier: Apache-2.0
 const State = require('./../ledger-api/state.js');
 
 // Enumerate commercial paper state values
-const cpState = {
-    ISSUED: 1,
-    TRADING: 2,
-    REDEEMED: 3
-};
+// const cpState = {
+//     ISSUED: 1,
+//     TRADING: 2,
+//     REDEEMED: 3
+// };
 
 /**
  * CommercialPaper class extends State class
@@ -21,55 +21,64 @@ const cpState = {
 class CommercialPaper extends State {
 
     constructor(obj) {
-        super(CommercialPaper.getClass(), [obj.issuer, obj.paperNumber]);
+        // [project_id, project_name] 组成 id?
+        super(CommercialPaper.getClass(), [project_id, project_name]);
         Object.assign(this, obj);
     }
 
     /**
      * Basic getters and setters
     */
-    getIssuer() {
-        return this.issuer;
+    getTotalProgress() {
+        return this.total_progress;
     }
 
-    setIssuer(newIssuer) {
-        this.issuer = newIssuer;
+    setTotalProgress(new_total_progress) {
+        this.total_progress = new_total_progress;
     }
 
-    getOwner() {
-        return this.owner;
-    }
+    // getIssuer() {
+    //     return this.issuer;
+    // }
 
-    setOwner(newOwner) {
-        this.owner = newOwner;
-    }
+    // setIssuer(newIssuer) {
+    //     this.issuer = newIssuer;
+    // }
+
+    // getOwner() {
+    //     return this.owner;
+    // }
+
+    // setOwner(newOwner) {
+    //     this.owner = newOwner;
+    // }
 
     /**
      * Useful methods to encapsulate commercial paper states
      */
-    setIssued() {
-        this.currentState = cpState.ISSUED;
-    }
+    // setIssued() {
+    //     this.currentState = cpState.ISSUED;
+    // }
 
-    setTrading() {
-        this.currentState = cpState.TRADING;
-    }
+    // setTrading() {
+    //     this.currentState = cpState.TRADING;
+    // }
 
-    setRedeemed() {
-        this.currentState = cpState.REDEEMED;
-    }
+    // setRedeemed() {
+    //     this.currentState = cpState.REDEEMED;
+    // }
 
-    isIssued() {
-        return this.currentState === cpState.ISSUED;
-    }
+    // isIssued() {
+    //     return this.currentState === cpState.ISSUED;
+    // }
 
-    isTrading() {
-        return this.currentState === cpState.TRADING;
-    }
+    // isTrading() {
+    //     return this.currentState === cpState.TRADING;
+    // }
 
-    isRedeemed() {
-        return this.currentState === cpState.REDEEMED;
-    }
+    // isRedeemed() {
+    //     return this.currentState === cpState.REDEEMED;
+    // }
 
     static fromBuffer(buffer) {
         return CommercialPaper.deserialize(buffer);
@@ -89,9 +98,24 @@ class CommercialPaper extends State {
 
     /**
      * Factory method to create a commercial paper object
+     *
+        项目编号： project_id
+        项目名称： project_name
+        单位名称 ： company_name
+        开工日期： start_date
+        总进度： total_progress
+        物探进度：wutan_progress
+        化探进度：huatan_progress
+        钻探进度：zuantan_progress
+        坑探进度： kengtan_progress
+        槽探进度：caotan_progress
+        浅井进度： qianjing_progress
+        已拨付预算： allocated_budget
+        总预算：total_budget
+
      */
-    static createInstance(issuer, paperNumber, issueDateTime, maturityDateTime, faceValue) {
-        return new CommercialPaper({ issuer, paperNumber, issueDateTime, maturityDateTime, faceValue });
+    static createInstance(project_id, project_name, company_name, start_date, total_progress, wutan_progress, huatan_progress, zuantan_progress, kengtan_progress, caotan_progress, qianjing_progress, allocated_budget, total_budget) {
+        return new CommercialPaper({ project_id, project_name,  company_name, start_date, total_progress, wutan_progress, huatan_progress, zuantan_progress, kengtan_progress, caotan_progress, qianjing_progress, allocated_budget, total_budget});
     }
 
     static getClass() {
