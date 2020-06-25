@@ -54,13 +54,6 @@ class CommercialPaperContract extends Contract {
 
     /**
      * Issue commercial paper
-     *
-     * @param {Context} ctx the transaction context
-     * @param {String} issuer commercial paper issuer
-     * @param {Integer} paperNumber paper number for this issuer
-     * @param {String} issueDateTime paper issue date
-     * @param {String} maturityDateTime paper maturity date
-     * @param {Integer} faceValue face value of paper
     */
     async newPaper(ctx, project_id, project_name, company_name, start_date, total_progress, wutan_progress, huatan_progress, zuantan_progress, kengtan_progress, caotan_progress, qianjing_progress, allocated_budget, total_budget) {
 
