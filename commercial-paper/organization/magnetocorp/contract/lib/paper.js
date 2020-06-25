@@ -22,7 +22,7 @@ class CommercialPaper extends State {
 
     constructor(obj) {
         // [project_id, project_name] 组成 id?
-        super(CommercialPaper.getClass(), [project_id, project_name]);
+        super(CommercialPaper.getClass(), [obj.project_id, obj.project_name]);
         Object.assign(this, obj);
     }
 
