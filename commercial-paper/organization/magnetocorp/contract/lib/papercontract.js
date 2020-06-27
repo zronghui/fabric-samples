@@ -54,6 +54,20 @@ class CommercialPaperContract extends Contract {
 
     /**
      * Issue commercial paper
+     * @param {Context} ctx
+     * @param {String} project_id
+     * @param {String} project_name
+     * @param {String} company_name
+     * @param {String} start_date
+     * @param {Integer} total_progress
+     * @param {Integer} wutan_progress
+     * @param {Integer} huatan_progress
+     * @param {Integer} zuantan_progress
+     * @param {Integer} kengtan_progress
+     * @param {Integer} caotan_progress
+     * @param {Integer} qianjing_progress
+     * @param {Integer} allocated_budget
+     * @param {Integer} total_budget
     */
     async newPaper(ctx, project_id, project_name, company_name, start_date, total_progress, wutan_progress, huatan_progress, zuantan_progress, kengtan_progress, caotan_progress, qianjing_progress, allocated_budget, total_budget) {
 
@@ -73,15 +87,21 @@ class CommercialPaperContract extends Contract {
         return paper;
     }
 
-    async updateTotalProgress(ctx, project_id, new_total_progress){
-            // Retrieve the current paper using key fields provided
-            let paperKey = CommercialPaper.makeKey([project_id]);
-            let paper = await ctx.paperList.getPaper(paperKey);
+    /**
+     * Issue commercial paper
+     * @param {Context} ctx
+     * @param {String} project_id
+     * @param {Integer} new_total_progress
+    */
+    async updateTotalProgress(ctx, project_id, new_total_progress) {
+        // Retrieve the current paper using key fields provided
+        let paperKey = CommercialPaper.makeKey([project_id]);
+        let paper = await ctx.paperList.getPaper(paperKey);
 
-            paper.updateTotalProgress(new_total_progress);
+        paper.updateTotalProgress(new_total_progress);
 
-            await ctx.paperList.updatePaper(paper);
-            return paper;
+        await ctx.paperList.updatePaper(paper);
+        return paper;
     }
 
     /**

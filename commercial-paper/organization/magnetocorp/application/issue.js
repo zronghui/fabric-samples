@@ -67,9 +67,9 @@ async function main() {
 
         const issueResponse = await contract.submitTransaction('newPaper', '001',
             'project_name', 'company_name', 'start_date',
-            '0', // total_progress
-            'wutan_progress', 'huatan_progress', 'zuantan_progress', 'kengtan_progress',
-            'caotan_progress', 'qianjing_progress', 'allocated_budget', 'total_budget');
+            0, // total_progress
+            0, 0, 0, 0,
+            0, 0, 10000, 100000);
 
         // process response
         console.log('Process issue transaction response.'+issueResponse);
