@@ -67,9 +67,9 @@ async function main() {
 
         const issueResponse = await contract.submitTransaction('newPaper', '001',
             'project_name', 'company_name', 'start_date',
-            0, // total_progress
-            0, 0, 0, 0,
-            0, 0, 10000, 100000);
+            '0', // total_progress
+            '0', '0', '0', '0',
+            '0', '0', '10000', '100000');
 
         // process response
         console.log('Process issue transaction response.'+issueResponse);
