@@ -37,6 +37,21 @@ class CommercialPaper extends State {
         this.total_progress = new_total_progress;
     }
 
+    getProjectId() {
+        return this.project_id;
+    }
+
+    setProjectId(project_id) {
+        this.project_id = project_id;
+    }
+    getProjectName() {
+        return this.project_name;
+    }
+
+    setProjectName(project_name) {
+        this.project_name = project_name;
+    }
+
     // getIssuer() {
     //     return this.issuer;
     // }
