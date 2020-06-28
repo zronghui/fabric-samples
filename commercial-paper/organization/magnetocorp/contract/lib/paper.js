@@ -37,18 +37,18 @@ class CommercialPaper extends State {
         this.total_progress = new_total_progress;
     }
 
-    getProjectId() {
+    getProject_id() {
         return this.project_id;
     }
 
-    setProjectId(project_id) {
+    setProject_id(project_id) {
         this.project_id = project_id;
     }
-    getProjectName() {
+    getProject_name() {
         return this.project_name;
     }
 
-    setProjectName(project_name) {
+    setProject_name(project_name) {
         this.project_name = project_name;
     }
 
